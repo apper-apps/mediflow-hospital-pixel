@@ -276,11 +276,11 @@ const Departments = () => {
                                   Admit
                                 </Button>
                               )}
-                              {patient.status === "admitted" && (
+{patient.status_c === "admitted" && (
                                 <Button
                                   variant="success"
                                   size="sm"
-                                  onClick={() => movePatientToNextStage(patient.Id, department.name)}
+                                  onClick={() => movePatientToNextStage(patient.Id, department.Name)}
                                 >
                                   <ApperIcon name="Check" className="w-4 h-4 mr-1" />
                                   Discharge

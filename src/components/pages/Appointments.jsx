@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { format, addDays, startOfWeek } from "date-fns";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Input from "@/components/atoms/Input";
-import Badge from "@/components/atoms/Badge";
+import { addDays, format, startOfWeek } from "date-fns";
+import patientService from "@/services/api/patientService";
+import appointmentService from "@/services/api/appointmentService";
 import ApperIcon from "@/components/ApperIcon";
-import StatusIndicator from "@/components/molecules/StatusIndicator";
-import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import appointmentService from "@/services/api/appointmentService";
-import patientService from "@/services/api/patientService";
+import Loading from "@/components/ui/Loading";
+import StatusIndicator from "@/components/molecules/StatusIndicator";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Input from "@/components/atoms/Input";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -379,14 +379,15 @@ const Appointments = () => {
                         </div>
                       )}
 
-                      <div className="flex gap-2 pt-4">
+<div className="flex gap-2 pt-4">
                         <Button 
                           variant="success" 
-                          size="sm" 
+                          size="sm"
                           onClick={() => handleStatusUpdate(appointment.Id, "completed")}
                           disabled={appointment.status === "completed"}
                           className="flex-1"
                         >
+                          <ApperIcon name="Check" className="w-4 h-4 mr-1" />
                           Complete
                         </Button>
                         <Button 
@@ -407,7 +408,60 @@ const Appointments = () => {
           )}
         </div>
       ) : (
-        <div className="space-y-4">
+
+      {/* Calendar View */}
+      <div className="mt-8">
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-slate-900">Weekly Schedule</h3>
+            <div className="flex gap-2">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setSelectedDate(addDays(selectedDate, -7))}
+              >
+                <ApperIcon name="ChevronLeft" className="w-4 h-4" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setSelectedDate(addDays(selectedDate, 7))}
+              >
+                <ApperIcon name="ChevronRight" className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-7 gap-4">
+            {getWeekAppointments().map((day, index) => (
+              <div key={index} className="p-3 bg-slate-50 rounded-lg min-h-[120px]">
+                <div className="font-medium text-slate-900 mb-2">
+                  {format(day.date, 'EEE dd')}
+                </div>
+                <div className="space-y-2">
+{day.appointments.slice(0, 3).map((appointment) => (
+                    <div key={appointment.Id} className="p-2 bg-white rounded border text-xs">
+                      <div className="font-medium">{appointment.timeSlot}</div>
+                      <div className="text-slate-600">{getPatientName(appointment.patientId)}</div>
+                    </div>
+                  ))}
+                  {day.appointments.length > 3 && (
+                    <div className="text-xs text-slate-500 font-medium">
+                      +{day.appointments.length - 3} more
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+export default Appointments;
+<div className="space-y-4">
           {weekAppointments.map((day, index) => (
             <motion.div
               key={format(day.date, "yyyy-MM-dd")}
@@ -446,6 +500,54 @@ const Appointments = () => {
           ))}
         </div>
       )}
+
+      {/* Calendar View */}
+      <div className="mt-8">
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-slate-900">Weekly Schedule</h3>
+            <div className="flex gap-2">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setSelectedDate(addDays(selectedDate, -7))}
+              >
+                <ApperIcon name="ChevronLeft" className="w-4 h-4" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setSelectedDate(addDays(selectedDate, 7))}
+              >
+                <ApperIcon name="ChevronRight" className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-7 gap-4">
+            {getWeekAppointments().map((day, index) => (
+              <div key={index} className="p-3 bg-slate-50 rounded-lg min-h-[120px]">
+                <div className="font-medium text-slate-900 mb-2">
+                  {format(day.date, 'EEE dd')}
+                </div>
+                <div className="space-y-2">
+                  {day.appointments.slice(0, 3).map((appointment) => (
+                    <div key={appointment.Id} className="p-2 bg-white rounded border text-xs">
+                      <div className="font-medium">{appointment.timeSlot}</div>
+                      <div className="text-slate-600">{getPatientName(appointment.patientId)}</div>
+                    </div>
+                  ))}
+                  {day.appointments.length > 3 && (
+                    <div className="text-xs text-slate-500 font-medium">
+                      +{day.appointments.length - 3} more
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };

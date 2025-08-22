@@ -354,7 +354,7 @@ const Patients = () => {
 
                   <div className="flex gap-2 pt-4">
                     <select
-                      value={patient.status}
+value={patient.status_c}
                       onChange={(e) => handleStatusUpdate(patient.Id, e.target.value)}
                       className="flex-1 h-8 px-2 py-1 bg-white border border-slate-300 rounded-md text-xs text-slate-900 focus:border-primary focus:outline-none"
                     >

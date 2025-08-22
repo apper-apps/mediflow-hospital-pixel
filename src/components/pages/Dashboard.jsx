@@ -264,18 +264,18 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {dashboardData.departmentStatus.map((dept) => (
                 <div key={dept.Id} className="p-4 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg border border-slate-200">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-medium text-slate-900">{dept.name}</h4>
-                    <Badge variant="primary" size="sm">{dept.activeStaff} staff</Badge>
+<div className="flex items-center justify-between mb-3">
+                    <h4 className="font-medium text-slate-900">{dept.Name}</h4>
+                    <Badge variant="primary" size="sm">{dept.active_staff_c} staff</Badge>
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-slate-600">Queue:</span>
-                      <span className="font-medium text-slate-900">{dept.currentQueue} patients</span>
+                      <span className="font-medium text-slate-900">{dept.current_queue_c} patients</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-slate-600">Wait time:</span>
-                      <span className="font-medium text-warning">{dept.averageWaitTime} min</span>
+                      <span className="font-medium text-warning">{dept.average_wait_time_c} min</span>
                     </div>
                   </div>
                 </div>

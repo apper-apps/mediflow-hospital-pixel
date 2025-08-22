@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import ApperIcon from "@/components/ApperIcon";
-import StatusIndicator from "@/components/molecules/StatusIndicator";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
 import bedService from "@/services/api/bedService";
 import patientService from "@/services/api/patientService";
+import ApperIcon from "@/components/ApperIcon";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import StatusIndicator from "@/components/molecules/StatusIndicator";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
 
 const Beds = () => {
   const [beds, setBeds] = useState([]);
@@ -313,7 +313,7 @@ const Beds = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <Card className="p-6">
+<Card className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
@@ -331,16 +331,20 @@ const Beds = () => {
                         <p className="text-slate-500">{bed.wardName} Ward</p>
                       </div>
                     </div>
+                    <StatusIndicator 
+                      status={bed.isOccupied ? "occupied" : "available"} 
+                      size="sm" 
+                    />
+                  </div>
 
-                    <div className="flex items-center space-x-4">
-                      <StatusIndicator status={bed.isOccupied ? "occupied" : "available"} />
-                      
-                      {bed.isOccupied ? (
-                        <div className="text-right mr-4">
+                  <div className="mt-4 pt-4 border-t border-slate-200">
+                    {bed.isOccupied ? (
+                      <div className="flex items-center justify-between">
+                        <div>
                           {patient && (
                             <>
                               <p className="font-medium text-slate-900">{patient.name}</p>
-                              <p className="text-sm text-slate-500">ID: {patient.id}</p>
+                              <p className="text-sm text-slate-500">Patient ID: {patient.Id}</p>
                             </>
                           )}
                           {bed.admittedDate && (
@@ -349,14 +353,7 @@ const Beds = () => {
                             </p>
                           )}
                         </div>
-                      ) : (
-                        <div className="text-right mr-4">
-                          <p className="text-slate-500">Available for admission</p>
-                        </div>
-                      )}
-
-                      <div className="flex space-x-2">
-                        {bed.isOccupied ? (
+                        <div className="flex space-x-2">
                           <Button
                             variant="success"
                             size="sm"
@@ -365,7 +362,17 @@ const Beds = () => {
                             <ApperIcon name="UserMinus" className="w-4 h-4 mr-2" />
                             Discharge
                           </Button>
-                        ) : (
+                          <Button variant="ghost" size="sm">
+                            <ApperIcon name="MoreVertical" className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between">
+                        <div className="text-slate-500">
+                          <p>Available for admission</p>
+                        </div>
+                        <div className="flex space-x-2">
                           <Button
                             variant="primary"
                             size="sm"
@@ -374,12 +381,12 @@ const Beds = () => {
                             <ApperIcon name="UserPlus" className="w-4 h-4 mr-2" />
                             Admit Patient
                           </Button>
-                        )}
-                        <Button variant="ghost" size="sm">
-                          <ApperIcon name="MoreVertical" className="w-4 h-4" />
-                        </Button>
+                          <Button variant="ghost" size="sm">
+                            <ApperIcon name="MoreVertical" className="w-4 h-4" />
+                          </Button>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </Card>
               </motion.div>

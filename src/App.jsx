@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Route, Router, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { ToastContainer } from "react-toastify";
+import "@/index.css";
+import Beds from "@/components/pages/Beds";
 import Patients from "@/components/pages/Patients";
+import Dashboard from "@/components/pages/Dashboard";
 import Departments from "@/components/pages/Departments";
 import Appointments from "@/components/pages/Appointments";
-import Dashboard from "@/components/pages/Dashboard";
-import Beds from "@/components/pages/Beds";
 import Layout from "@/components/organisms/Layout";
 import Error from "@/components/ui/Error";
 
@@ -292,12 +293,12 @@ function AppContent() {
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router>
+<Provider store={store}>
+      <BrowserRouter>
         <div className="min-h-screen bg-white">
           <AppContent />
         </div>
-      </Router>
+      </BrowserRouter>
     </Provider>
   );
 }

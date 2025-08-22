@@ -408,60 +408,7 @@ const Appointments = () => {
           )}
         </div>
       ) : (
-
-      {/* Calendar View */}
-      <div className="mt-8">
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-slate-900">Weekly Schedule</h3>
-            <div className="flex gap-2">
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => setSelectedDate(addDays(selectedDate, -7))}
-              >
-                <ApperIcon name="ChevronLeft" className="w-4 h-4" />
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => setSelectedDate(addDays(selectedDate, 7))}
-              >
-                <ApperIcon name="ChevronRight" className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-7 gap-4">
-            {getWeekAppointments().map((day, index) => (
-              <div key={index} className="p-3 bg-slate-50 rounded-lg min-h-[120px]">
-                <div className="font-medium text-slate-900 mb-2">
-                  {format(day.date, 'EEE dd')}
-                </div>
-                <div className="space-y-2">
-{day.appointments.slice(0, 3).map((appointment) => (
-                    <div key={appointment.Id} className="p-2 bg-white rounded border text-xs">
-                      <div className="font-medium">{appointment.timeSlot}</div>
-                      <div className="text-slate-600">{getPatientName(appointment.patientId)}</div>
-                    </div>
-                  ))}
-                  {day.appointments.length > 3 && (
-                    <div className="text-xs text-slate-500 font-medium">
-                      +{day.appointments.length - 3} more
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </div>
-    </div>
-  );
-}
-
-export default Appointments;
-<div className="space-y-4">
+        <div className="space-y-4">
           {weekAppointments.map((day, index) => (
             <motion.div
               key={format(day.date, "yyyy-MM-dd")}
